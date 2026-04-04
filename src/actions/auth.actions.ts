@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { LoginSchema } from "@/validations/auth.validations";
@@ -28,4 +29,17 @@ export async function login(formData: FormData): Promise<ActionResult<null>> {
   }
 
   redirect("/dashboard");
+}
+
+export async function logout(): Promise<ActionResult<null>> {
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signOut();
+    if (error) return { success: false, error: "Unable to sign out." };
+  } catch {
+    return { success: false, error: "An unexpected error occurred." };
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/login");
 }

@@ -4,7 +4,7 @@ import { cache } from "react";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
-import type { AdminRole } from "@/types";
+import type { AdminRole, AdminShellProfile } from "@/types";
 
 export const requireAdmin = cache(async () => {
   const supabase = await createClient();
@@ -28,3 +28,18 @@ export const requireAdmin = cache(async () => {
 
   return { user, role: admin.role as AdminRole };
 });
+
+export const getAdminById = cache(
+  async (userId: string): Promise<AdminShellProfile | null> => {
+    await requireAdmin();
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("admins")
+      .select("id, user_id, role, full_name, contact_number, avatar_url")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data;
+  },
+);
