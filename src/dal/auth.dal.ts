@@ -29,6 +29,14 @@ export const requireAdmin = cache(async () => {
   return { user, role: admin.role as AdminRole };
 });
 
+export const requireSuperAdmin = cache(async () => {
+  const { user, role } = await requireAdmin();
+  if (role !== "super_admin") {
+    return { user, role, permitted: false as const };
+  }
+  return { user, role, permitted: true as const };
+});
+
 export const getAdminById = cache(
   async (userId: string): Promise<AdminShellProfile | null> => {
     await requireAdmin();

@@ -48,6 +48,11 @@ export type ProductListRow = Pick<
   thumbnail_url: string | null;
 };
 
+export type CategoryListRow = Pick<
+  Category,
+  "id" | "title" | "slug" | "status" | "include_in_nav" | "sort_order"
+>;
+
 type OrderItemAttributeListRow =
   Database["public"]["Tables"]["order_item_attributes"]["Row"];
 
