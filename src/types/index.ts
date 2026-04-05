@@ -53,6 +53,18 @@ export type CategoryListRow = Pick<
   "id" | "title" | "slug" | "status" | "include_in_nav" | "sort_order"
 >;
 
+export type CategoryFormRow = Pick<
+  Category,
+  | "id"
+  | "title"
+  | "slug"
+  | "description"
+  | "image"
+  | "status"
+  | "include_in_nav"
+  | "sort_order"
+>;
+
 type OrderItemAttributeListRow =
   Database["public"]["Tables"]["order_item_attributes"]["Row"];
 

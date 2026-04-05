@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
-import { createCategory } from "@/actions/categories.actions";
+import { createCategory, updateCategory } from "@/actions/categories.actions";
 import { ImageDropzone } from "@/components/shared/image-dropzone";
 import { MutateButton } from "@/components/shared/mutate-button";
 import { Button } from "@/components/ui/button";
@@ -25,23 +25,34 @@ import {
   type CreateCategoryValues,
 } from "@/validations/category.validations";
 
-export function CategoryForm() {
+const CREATE_DEFAULTS: CreateCategoryFormValues = {
+  title: "",
+  slug: "",
+  description: "",
+  image: "",
+  status: true,
+  include_in_nav: false,
+  sort_order: 0,
+};
+
+type CategoryFormProps = {
+  categoryId?: string;
+  defaultValues?: CreateCategoryFormValues;
+};
+
+export function CategoryForm({
+  categoryId,
+  defaultValues: serverDefaultValues,
+}: CategoryFormProps = {}) {
   const router = useRouter();
   const { can } = usePermissions();
   const canMutate = can("mutate");
+  const isEdit = Boolean(categoryId);
 
   const form = useForm<CreateCategoryFormValues, unknown, CreateCategoryValues>(
     {
       resolver: zodResolver(CreateCategorySchema),
-      defaultValues: {
-        title: "",
-        slug: "",
-        description: "",
-        image: "",
-        status: true,
-        include_in_nav: false,
-        sort_order: 0,
-      },
+      defaultValues: serverDefaultValues ?? CREATE_DEFAULTS,
     },
   );
 
@@ -55,10 +66,18 @@ export function CategoryForm() {
     fd.set("include_in_nav", values.include_in_nav ? "true" : "false");
     fd.set("sort_order", String(values.sort_order));
 
-    const result = await createCategory(fd);
-    if (!result.success) {
-      form.setError("root", { message: result.error });
-      return;
+    if (categoryId) {
+      const result = await updateCategory(categoryId, fd);
+      if (!result.success) {
+        form.setError("root", { message: result.error });
+        return;
+      }
+    } else {
+      const result = await createCategory(fd);
+      if (!result.success) {
+        form.setError("root", { message: result.error });
+        return;
+      }
     }
     router.push("/categories");
   };
@@ -207,7 +226,13 @@ export function CategoryForm() {
             Cancel
           </Button>
           <MutateButton type="submit" loading={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? "Creating…" : "Create category"}
+            {form.formState.isSubmitting
+              ? isEdit
+                ? "Saving…"
+                : "Creating…"
+              : isEdit
+                ? "Save changes"
+                : "Create category"}
           </MutateButton>
         </CardFooter>
       </form>

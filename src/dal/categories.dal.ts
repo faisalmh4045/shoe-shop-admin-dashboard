@@ -4,7 +4,24 @@ import { cache } from "react";
 
 import { requireAdmin } from "@/dal/auth.dal";
 import { createClient } from "@/lib/supabase/server";
-import type { CategoryListRow } from "@/types";
+import type { CategoryListRow, CategoryFormRow } from "@/types";
+
+export const getCategoryById = cache(
+  async (id: string): Promise<CategoryFormRow | null> => {
+    await requireAdmin();
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("categories")
+      .select(
+        "id, title, slug, description, image, status, include_in_nav, sort_order",
+      )
+      .eq("id", id)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data as CategoryFormRow | null;
+  },
+);
 
 export const getCategories = cache(
   async (
