@@ -65,6 +65,23 @@ export type CategoryFormRow = Pick<
   | "sort_order"
 >;
 
+export type CategoryOptionForProductForm = Pick<
+  Category,
+  "id" | "title" | "sort_order"
+>;
+
+export type AttributeOptionForProductForm = Pick<
+  AttributeOption,
+  "id" | "option_text" | "sort_order"
+>;
+
+export type AttributeForProductForm = Pick<
+  Attribute,
+  "id" | "attribute_name" | "sort_order"
+> & {
+  attribute_options: AttributeOptionForProductForm[];
+};
+
 type OrderItemAttributeListRow =
   Database["public"]["Tables"]["order_item_attributes"]["Row"];
 
