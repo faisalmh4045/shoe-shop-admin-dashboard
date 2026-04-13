@@ -821,6 +821,42 @@ export type Database = {
           },
         ];
       };
+      variant_group_attributes: {
+        Row: {
+          attribute_id: string;
+          id: string;
+          sort_order: number;
+          variant_group_id: string;
+        };
+        Insert: {
+          attribute_id: string;
+          id?: string;
+          sort_order?: number;
+          variant_group_id: string;
+        };
+        Update: {
+          attribute_id?: string;
+          id?: string;
+          sort_order?: number;
+          variant_group_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "variant_group_attributes_attribute_id_fkey";
+            columns: ["attribute_id"];
+            isOneToOne: false;
+            referencedRelation: "attributes";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "variant_group_attributes_variant_group_id_fkey";
+            columns: ["variant_group_id"];
+            isOneToOne: false;
+            referencedRelation: "variant_groups";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       variant_groups: {
         Row: {
           created_at: string;

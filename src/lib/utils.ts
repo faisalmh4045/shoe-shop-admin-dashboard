@@ -13,3 +13,8 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 export function formatCurrency(amount: number): string {
   return currencyFormatter.format(amount);
 }
+
+export function fieldMessage(err: { message?: unknown } | undefined): string {
+  const m = err?.message;
+  return typeof m === "string" ? m : "";
+}

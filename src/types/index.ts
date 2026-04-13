@@ -13,6 +13,10 @@ export type ProductVariant =
   Database["public"]["Tables"]["product_variants"]["Row"];
 export type ProductImage =
   Database["public"]["Tables"]["product_images"]["Row"];
+export type VariantImage =
+  Database["public"]["Tables"]["variant_images"]["Row"];
+export type VariantGroupAttributeRow =
+  Database["public"]["Tables"]["variant_group_attributes"]["Row"];
 export type Order = Database["public"]["Tables"]["orders"]["Row"];
 export type OrderItem = Database["public"]["Tables"]["order_items"]["Row"];
 export type OrderAddress =
@@ -80,6 +84,46 @@ export type AttributeForProductForm = Pick<
   "id" | "attribute_name" | "sort_order"
 > & {
   attribute_options: AttributeOptionForProductForm[];
+};
+
+/** Normalized variant attribute value row for product detail / variant UI. */
+export type VariantAttributeValueForProductDetail = {
+  id: string;
+  attribute_id: string;
+  attribute_name: string;
+  option_id: string | null;
+  option_text: string | null;
+  text_value: string | null;
+};
+
+export type ProductVariantForProductDetail = ProductVariant & {
+  variant_images: VariantImage[];
+  variant_attribute_values: VariantAttributeValueForProductDetail[];
+};
+
+export type VariantGroupAttributeForProductDetail = {
+  id: string;
+  attribute_id: string;
+  attribute_name: string;
+  sort_order: number;
+};
+
+export type VariantGroupForProductDetail = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  attributes: VariantGroupAttributeForProductDetail[];
+  variants: ProductVariantForProductDetail[];
+};
+
+/** Full product row for admin edit — from `getProductById`. */
+export type ProductDetail = Product & {
+  product_images: ProductImage[];
+  product_attribute_values: {
+    attribute_id: string;
+    option_id: string | null;
+  }[];
+  variant_group: VariantGroupForProductDetail | null;
 };
 
 type OrderItemAttributeListRow =

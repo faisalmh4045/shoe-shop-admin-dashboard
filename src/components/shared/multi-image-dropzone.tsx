@@ -5,7 +5,6 @@ import { CldUploadWidget } from "next-cloudinary";
 import { ChevronDown, ChevronUp, ImageIcon, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 const MAX_IMAGES = 8;
@@ -48,7 +47,6 @@ export function MultiImageDropzone({
 
   return (
     <div className="space-y-2">
-      <Label>Product images</Label>
       <p className="text-sm text-muted-foreground">
         Up to {MAX_IMAGES} images. Reorder with the arrow buttons.
       </p>
