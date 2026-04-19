@@ -18,3 +18,11 @@ export function fieldMessage(err: { message?: unknown } | undefined): string {
   const m = err?.message;
   return typeof m === "string" ? m : "";
 }
+
+export function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}

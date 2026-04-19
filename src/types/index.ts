@@ -141,6 +141,36 @@ export type OrderWithDetails = Order & {
   payment_transactions: PaymentTransaction[];
 };
 
+// ── Dashboard types ─────────────────────────────────────────────────────────
+export type SalesStats = {
+  thisMonthSales: number;
+  lastMonthSales: number;
+  allTimeSales: number;
+};
+
+export type OrderStatusCounts = {
+  pending: number;
+  processing: number;
+};
+
+export type DashboardOrder = {
+  id: string;
+  email: string;
+  order_number: string;
+  order_status: OrderStatus;
+  payment_method: PaymentMethod;
+  placed_at: string;
+  total: number;
+};
+
+export type ChartDataPoint = {
+  label: string;
+  sales: number;
+  orders: number;
+};
+
+export type Period = "day" | "week" | "month" | "year";
+
 // ── Re-export app-level types ─────────────────────────────────────────────
 export type {
   ActionResult,
