@@ -171,6 +171,77 @@ export type ChartDataPoint = {
 
 export type Period = "day" | "week" | "month" | "year";
 
+// ── Chat BI types (serializable only) ──────────────────────────────────────
+export type ChatPeriod = "day" | "week" | "month" | "year";
+
+export type OrderComparisonResult = {
+  period: ChatPeriod;
+  currentOrderCount: number;
+  previousOrderCount: number;
+  delta: number;
+  deltaPercentage: number | null;
+};
+
+export type RevenueStatsResult = {
+  period: ChatPeriod;
+  currentRevenue: number;
+  previousRevenue: number;
+  delta: number;
+  deltaPercentage: number | null;
+};
+
+export type LowStockProductResult = {
+  productId: string;
+  title: string;
+  sku: string;
+  quantity: number;
+  updatedAt: string;
+};
+
+export type SearchOrderResult = {
+  orderId: string;
+  email: string;
+  total: number;
+  status: string;
+  placedAt: string;
+};
+
+export type OrderDetailsResult = {
+  orderId: string;
+  email: string;
+  total: number;
+  status: string;
+  placedAt: string;
+  items: {
+    productId: string;
+    title: string;
+    sku: string;
+    quantity: number;
+    subtotal: number;
+  }[];
+};
+
+export type NewCustomersResult = {
+  period: ChatPeriod;
+  newCustomers: number;
+  previousNewCustomers: number;
+  delta: number;
+  deltaPercentage: number | null;
+};
+
+export type DeadInventoryResult = {
+  productId: string;
+  title: string;
+  sku: string;
+  stockQuantity: number;
+};
+
+export type SalesByDayResult = {
+  day: string;
+  orderCount: number;
+  revenue: number;
+};
+
 // ── Re-export app-level types ─────────────────────────────────────────────
 export type {
   ActionResult,

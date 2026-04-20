@@ -22,6 +22,7 @@ import {
   UsersIcon,
   Settings2Icon,
   HashIcon,
+  MessageSquareIcon,
 } from "lucide-react";
 
 function routeActive(pathname: string, href: string): boolean {
@@ -90,6 +91,11 @@ const quickLinks: NavItem[] = [
     title: "New product",
     href: "/products/new",
     icon: <PlusCircleIcon className="size-4" />,
+  },
+  {
+    title: "Chat",
+    href: "/chat",
+    icon: <MessageSquareIcon className="size-4" />,
   },
 ];
 

@@ -16,8 +16,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         } as CSSProperties
       }
     >
-      <AdminSidebar variant="inset" />
-      <SidebarInset>
+      <AdminSidebar />
+      <SidebarInset className="min-w-0">
         <AdminHeader />
         <div className="flex flex-1 flex-col">{children}</div>
       </SidebarInset>
