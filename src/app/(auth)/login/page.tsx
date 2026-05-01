@@ -23,12 +23,19 @@ export default function LoginPage() {
     }
   };
 
+  const fillDemo = () => {
+    form.setValue("email", "demo@shoeshop.com");
+    form.setValue("password", "12345678");
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Admin login</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Welcome back, admin
+        </h1>
         <p className="text-sm text-muted-foreground">
-          Sign in to manage the store.
+          Access your ShoeShop dashboard
         </p>
       </div>
 
@@ -85,6 +92,22 @@ export default function LoginPage() {
           {form.formState.isSubmitting ? "Signing in..." : "Sign in"}
         </Button>
       </form>
+
+      {/* Demo section */}
+      <div className="rounded-lg border border-dashed border-border bg-muted p-4 text-sm text-muted-foreground">
+        <div className="flex items-center justify-between">
+          <p className="font-medium">Demo account</p>
+          <Button type="button" variant="outline" size="sm" onClick={fillDemo}>
+            Use demo
+          </Button>
+        </div>
+        <p>
+          Email: <span className="font-medium">demo@shoeshop.com</span>
+        </p>
+        <p>
+          Password: <span className="font-medium">12345678</span>
+        </p>
+      </div>
     </div>
   );
 }
